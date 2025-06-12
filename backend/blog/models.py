@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from markdownx.models import MarkdownxField
@@ -63,9 +64,10 @@ class Tag(models.Model):
 
 
 class Post(models.Model):
-    title = models.CharField(max_length=200)
-    slug = models.SlugField()
-    content = MarkdownxField()
+    title = models.CharField(max_length=200, unique=True)
+    subtitle = models.CharField(max_length=200, blank=True)
+    slug = models.SlugField(max_length=200, unique=True)
+    body = MarkdownxField()
     featured_image = models.ImageField(upload_to="posts/featured_images/%Y/%m/%d/")
     is_published = models.BooleanField(default=False)
     is_featured = models.BooleanField(default=False)
